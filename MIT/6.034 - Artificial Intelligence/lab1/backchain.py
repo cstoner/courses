@@ -15,8 +15,36 @@ from zookeeper import ZOOKEEPER_RULES
 
 
 def backchain_to_goal_tree(rules, hypothesis):
-    raise NotImplementedError
+    matched_rules = []
+    results = []
+
+    for rule in rules:
+        rule_str = rule.consequent()[0]
+        if match(rule_str, hypothesis) is not None:
+            res = match(rule_str, hypothesis)
+            matched_rules.append(populate(rule.antecedent(), res))
+
+    for m in matched_rules:
+        if isinstance(m, AND):
+            res = []
+            for item in m:
+                res.append(backchain_to_goal_tree(rules, item))
+            results.append(AND(res))
+
+        elif isinstance(m, OR):
+            res = []
+            for item in m:
+                res.append(backchain_to_goal_tree(rules, item))
+            results.append(OR(res))
+
+        elif isinstance(m, str):
+            results.append(backchain_to_goal_tree(rules, m))
+
+        else:
+            raise Exception, "Not sure what do do with object '{}'".format(m) 
+
+    return simplify(OR([hypothesis] + results))
 
 # Here's an example of running the backward chainer - uncomment
 # it to see it work:
-#print backchain_to_goal_tree(ZOOKEEPER_RULES, 'opus is a penguin')
+#print backchain_to_goal_tree(ZOOKEEPER_RULES, 'opus is a penguin') 
