@@ -31,16 +31,13 @@ assert(len(get_plot('^>v<')) == 4)
 assert(len(get_plot('^v^v^v^v^v')) == 2)
 
 def split_route(data):
-    is_even = True
     route1 = ""
     route2 = ""
-    for i in data:
-        if is_even:
-            is_even = False
-            route1 += i
+    for i in range(len(data)):
+        if i % 2 == 0:
+            route1 += data[i]
         else:
-            is_even = True
-            route2 += i
+            route2 += data[i]
 
     route1_plot = get_plot(route1)
     route2_plot = get_plot(route2)
