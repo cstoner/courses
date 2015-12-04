@@ -7,6 +7,7 @@ def get_plot(data):
     curr_y = 0
     plot = {}
 
+    plot[(0, 0)] = 1
     for c in data:
         if c == '>':
             curr_x += 1
@@ -16,8 +17,6 @@ def get_plot(data):
             curr_y += 1
         elif c == 'v':
             curr_y -= 1
-
-        plot[(0, 0)] = 1
 
         if (curr_x, curr_y) in plot:
             plot[(curr_x, curr_y)] += 1
