@@ -20,6 +20,7 @@ def coord_to_ints(s):
 #  * turn on
 #  * turn off
 #  * toggle
+# Part 2 changes the functions, but in practice only the toggle is different
 def do_instruction(s):
     def turn_on(i):
         return i+1
@@ -81,7 +82,6 @@ def clear_grid():
 
 for line in data.split('\n'):
     do_instruction(line)
-
 
 
 print "Light count: {}".format(count_grid())
